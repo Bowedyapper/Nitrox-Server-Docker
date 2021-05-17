@@ -16,11 +16,12 @@ To run this image, you can either simply use docker or use docker-compose.
 To run the image using docker, use the following command:
 
 ```shell
-docker run --volume "nitrox-data:/software/nitrox" --volume "/path/to/subnautica:/software/subnautica" qub1/nitrox-server:latest
+docker run --volume "nitrox-data:/software/nitrox" --volume "/path/to/subnautica:/software/subnautica" --env "GROUP_ID=1000" --env "USER_ID=1000" --env "TIMEZONE=Etc/GMT" qub1/nitrox-server:latest
 ```
 
-Replace `/path/to/subnautica` with the path to the Subnautica installation directory.
-For steam this will be something like: `/path/to/steam/steamapps/common/Subnautica`.
+Replace `/path/to/subnautica` with the path to the Subnautica installation directory, for steam this will be something like: `/path/to/steam/steamapps/common/Subnautica`.
+Replace the group ID and user ID with your own if needed, this will change the ownership permissions of the server data folder.
+Set the timezone to your own for proper timestamps in the logs.
 
 ### Docker-Compose
 
