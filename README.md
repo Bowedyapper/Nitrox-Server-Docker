@@ -17,6 +17,7 @@ To run the image using docker, use the following command:
 
 ```shell
 docker run \
+	--name "nitrox" \
 	--volume "nitrox-data:/software/nitrox" \
 	--volume "/path/to/subnautica:/software/subnautica" \
 	--env "GROUP_ID=1000" \
