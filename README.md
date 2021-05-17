@@ -2,7 +2,7 @@
 
 A docker image that runs the Nitrox server software for the game Subnautica.
 
-Visit the official website [here](https://nitrox.rux.gg/download).
+Visit the official Nitrox website [here](https://nitrox.rux.gg/download).
 You can find the original repository for this project [here](https://gitlab.qub1.com/multimedia/games/subnautica/nitrox-server-docker).
 
 ## Disclaimer
