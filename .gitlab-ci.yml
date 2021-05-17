@@ -1,12 +1,22 @@
+stages:
+  - build
+  - deploy
 docker-build:
   image: docker:latest
   stage: build
-  services:
-    - docker:dind
   before_script:
     - docker login --username "$CI_REGISTRY_USER" --password "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   script:
     - docker build --pull --tag "$CI_REGISTRY_IMAGE" .
+    - docker push "$CI_REGISTRY_IMAGE"
+  only:
+    - master
+docker-publish:
+  image: docker:latest
+  stage: deploy
+  before_script:
+    - docker login --username "$CI_REGISTRY_USER" --password "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  script:
     - docker push "$CI_REGISTRY_IMAGE"
   only:
     - master
