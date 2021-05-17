@@ -1,7 +1,9 @@
 # Nitrox Server Docker
 
 A docker image that runs the Nitrox server software for the game Subnautica.
-Visit the official website at: https://nitrox.rux.gg/download
+
+Visit the official website [here](https://nitrox.rux.gg/download).
+You can find the original repository for this project [here](https://gitlab.qub1.com/multimedia/games/subnautica/nitrox-server-docker).
 
 ## Disclaimer
 
@@ -32,7 +34,7 @@ Set the timezone to your own for proper timestamps in the logs.
 
 ### Docker-Compose
 
-To run the image using docker-compose, adjust the docker-compose file found here to your needs: [https://gitlab.qub1.com/multimedia/games/subnautica/nitrox-server-docker/-/blob/master/docker-compose.yml](https://gitlab.qub1.com/multimedia/games/subnautica/nitrox-server-docker/-/blob/master/docker-compose.yml).
+To run the image using docker-compose, adjust [this docker-compose file](https://gitlab.qub1.com/multimedia/games/subnautica/nitrox-server-docker/-/blob/master/docker-compose.yml) to your needs.
 Place the `docker-compose.yml` file somewhere on your server and run `docker-compose up` in the same directory to start the server.
 
 ### Server Configuration
