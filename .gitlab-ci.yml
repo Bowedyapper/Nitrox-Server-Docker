@@ -7,7 +7,7 @@ docker-build:
   before_script:
     - docker login --username "$CI_REGISTRY_USER" --password "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   script:
-    - docker build --pull --no-cache --tag "$CI_REGISTRY_IMAGE" .
+    - docker build --pull --tag "$CI_REGISTRY_IMAGE" .
   only:
     - master
 docker-publish:
