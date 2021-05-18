@@ -34,7 +34,27 @@ Set the timezone to your own for proper timestamps in the logs.
 
 ### Docker-Compose
 
-To run the image using docker-compose, adjust [this docker-compose file](https://gitlab.qub1.com/multimedia/games/subnautica/nitrox-server-docker/-/blob/master/docker-compose.yml) to your needs.
+To run the image using docker-compose, adjust this docker-compose file to your needs:
+
+```docker
+version: "3.4"
+services:
+  nitrox:
+    image: "qub1/nitrox-server:latest"
+    restart: "unless-stopped"
+    ports:
+      - "11000:11000/udp" # Nitrox
+    volumes:
+      - "nitrox-data:/software/nitrox" # Stores your server data, such as the configuration and world data
+      - "/path/to/subnautica:/software/subnautica" # Stores Subnautica's game files - you will need to copy your own game directory here by moving the contents of your Subnautica installation directory to this volume
+    environment:
+      - "GROUP_ID=1000" # The ID of the group to run Nitrox as (default=1000)
+      - "USER_ID=1000" # The ID of the user to run Nitrox as (default=1000)
+      - "TIMEZONE=Etc/GMT" # The timezone to run Nitrox with (default=Etc/GMT)
+volumes:
+  nitrox-data: 
+```
+
 Place the `docker-compose.yml` file somewhere on your server and run `docker-compose up` in the same directory to start the server.
 
 ### Server Configuration

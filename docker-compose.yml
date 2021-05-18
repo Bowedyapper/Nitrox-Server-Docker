@@ -5,8 +5,6 @@ services:
       context: .
       dockerfile: ./Dockerfile
     restart: "unless-stopped"
-    networks:
-      - "nitrox"
     ports:
       - "11000:11000/udp" # Nitrox
     volumes:
@@ -16,8 +14,5 @@ services:
       - "GROUP_ID=1000" # The ID of the group to run Nitrox as (default=1000)
       - "USER_ID=1000" # The ID of the user to run Nitrox as (default=1000)
       - "TIMEZONE=Etc/GMT" # The timezone to run Nitrox with (default=Etc/GMT)
-networks:
-  nitrox:
-    driver: "bridge"
 volumes:
   nitrox-data: 
