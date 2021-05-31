@@ -25,6 +25,7 @@ docker run \
 	--env "GROUP_ID=1000" \
 	--env "USER_ID=1000" \
 	--env "TIMEZONE=Etc/GMT" \
+  --publish 11000:11000/udp \
 	qub1/nitrox-server:latest
 ```
 
