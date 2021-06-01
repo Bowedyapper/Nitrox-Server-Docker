@@ -1,8 +1,10 @@
 stages:
   - build
   - deploy
-docker-build-gitlab:
+default:
   image: docker:latest
+  interruptible: true
+docker-build-gitlab:
   stage: build
   before_script:
     - docker login --username "${GITLAB_REGISTRY_USER}" --password "${GITLAB_REGISTRY_PASSWORD}" ${GITLAB_REGISTRY}
@@ -11,8 +13,8 @@ docker-build-gitlab:
   only:
     - master
 docker-publish-gitlab:
-  image: docker:latest
   stage: deploy
+  interruptible: false
   before_script:
     - docker login --username "${GITLAB_REGISTRY_USER}" --password "${GITLAB_REGISTRY_PASSWORD}" ${GITLAB_REGISTRY}
   script:
@@ -20,7 +22,6 @@ docker-publish-gitlab:
   only:
     - master
 docker-build-docker-hub:
-  image: docker:latest
   stage: build
   before_script:
     - docker login --username "${DOCKER_HUB_REGISTRY_USER}" --password "${DOCKER_HUB_REGISTRY_PASSWORD}" ${DOCKER_HUB_REGISTRY}
@@ -29,8 +30,8 @@ docker-build-docker-hub:
   only:
     - master
 docker-publish-docker-hub:
-  image: docker:latest
   stage: deploy
+  interruptible: false
   before_script:
     - docker login --username "${DOCKER_HUB_REGISTRY_USER}" --password "${DOCKER_HUB_REGISTRY_PASSWORD}" ${DOCKER_HUB_REGISTRY}
   script:
