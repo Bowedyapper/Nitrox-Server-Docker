@@ -19,7 +19,7 @@ unzip -u /software/packages/nitrox.zip -d ./
 echo "Fixing Nitrox permissions..."
 chmod +x ./*.exe
 
-# Fix bug due to linux file name case sensitivity
+# Fix bug due to Linux file name case sensitivity
 echo "Fixing Nitrox case sensitive filenames..."
 ln --symbolic --force /software/subnautica/Subnautica_Data/Managed/LitJson.dll ./LitJSON.dll
 
