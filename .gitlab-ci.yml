@@ -7,34 +7,34 @@ default:
 docker-build-gitlab:
   stage: build
   before_script:
-    - docker login --username "${GITLAB_REGISTRY_USER}" --password "${GITLAB_REGISTRY_PASSWORD}" ${GITLAB_REGISTRY}
+    - docker login --username "${GITLAB_CONTAINER_REGISTRY_USER}" --password "${GITLAB_CONTAINER_REGISTRY_PASSWORD}" ${GITLAB_CONTAINER_REGISTRY}
   script:
-    - docker build --pull --tag "${GITLAB_REGISTRY_IMAGE}" .
+    - docker build --pull --tag "${GITLAB_CONTAINER_REGISTRY_IMAGE}" .
   only:
     - master
 docker-publish-gitlab:
   stage: deploy
   interruptible: false
   before_script:
-    - docker login --username "${GITLAB_REGISTRY_USER}" --password "${GITLAB_REGISTRY_PASSWORD}" ${GITLAB_REGISTRY}
+    - docker login --username "${GITLAB_CONTAINER_REGISTRY_USER}" --password "${GITLAB_CONTAINER_REGISTRY_PASSWORD}" ${GITLAB_CONTAINER_REGISTRY}
   script:
-    - docker push "${GITLAB_REGISTRY_IMAGE}"
+    - docker push "${GITLAB_CONTAINER_REGISTRY_IMAGE}"
   only:
     - master
 docker-build-docker-hub:
   stage: build
   before_script:
-    - docker login --username "${DOCKER_HUB_REGISTRY_USER}" --password "${DOCKER_HUB_REGISTRY_PASSWORD}" ${DOCKER_HUB_REGISTRY}
+    - docker login --username "${DOCKER_HUB_CONTAINER_REGISTRY_USER}" --password "${DOCKER_HUB_CONTAINER_REGISTRY_PASSWORD}" ${DOCKER_HUB_CONTAINER_REGISTRY}
   script:
-    - docker build --pull --tag "${DOCKER_HUB_REGISTRY_IMAGE}" .
+    - docker build --pull --tag "${DOCKER_HUB_CONTAINER_REGISTRY_IMAGE}" .
   only:
     - master
 docker-publish-docker-hub:
   stage: deploy
   interruptible: false
   before_script:
-    - docker login --username "${DOCKER_HUB_REGISTRY_USER}" --password "${DOCKER_HUB_REGISTRY_PASSWORD}" ${DOCKER_HUB_REGISTRY}
+    - docker login --username "${DOCKER_HUB_CONTAINER_REGISTRY_USER}" --password "${DOCKER_HUB_CONTAINER_REGISTRY_PASSWORD}" ${DOCKER_HUB_CONTAINER_REGISTRY}
   script:
-    - docker push "${DOCKER_HUB_REGISTRY_IMAGE}"
+    - docker push "${DOCKER_HUB_CONTAINER_REGISTRY_IMAGE}"
   only:
     - master
