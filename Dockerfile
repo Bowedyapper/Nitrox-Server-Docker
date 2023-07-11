@@ -8,8 +8,8 @@ COPY ./scripts /software/scripts/
 
 # Install dependencies
 RUN apk update 
-RUN	apk upgrade 
-RUN	apk --no-cache add curl unzip wget libgdiplus
+RUN apk upgrade 
+RUN apk --no-cache add curl unzip wget libgdiplus
 
 CMD \
 	bin/bash software/scripts/setup-timezone.sh \
