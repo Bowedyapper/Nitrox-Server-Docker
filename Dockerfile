@@ -1,18 +1,18 @@
-FROM ubuntu:latest
+FROM frolvlad/alpine-mono
 
-ENV DEBIAN_FRONTEND noninteractive
+# ENV DEBIAN_FRONTEND noninteractive
+
+RUN apk update && apk add bash
+# Run Nitrox
+COPY ./scripts /software/scripts/
 
 # Install dependencies
-COPY ./install-dependencies.sh /software/scripts/install-dependencies.sh
-RUN /software/scripts/install-dependencies.sh
+RUN apk update 
+RUN	apk upgrade 
+RUN	apk --no-cache add curl unzip wget libgdiplus
 
-# Run Nitrox
-COPY ./install-nitrox.sh /software/scripts/install-nitrox.sh
-COPY ./run-nitrox.sh /software/scripts/run-nitrox.sh
-COPY ./setup-timezone.sh /software/scripts/setup-timezone.sh
-COPY ./setup-user.sh /software/scripts/setup-user.sh
 CMD \
-	/software/scripts/setup-timezone.sh \
-	&& /software/scripts/setup-user.sh \
-	&& /software/scripts/install-nitrox.sh \
-	&& /software/scripts/run-nitrox.sh
+	bin/bash software/scripts/setup-timezone.sh \
+	&& bin/bash software/scripts/setup-user.sh \
+	&& bin/bash software/scripts/install-nitrox.sh \
+	&& bin/bash software/scripts/run-nitrox.sh
