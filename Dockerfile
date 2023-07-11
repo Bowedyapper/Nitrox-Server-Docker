@@ -1,9 +1,7 @@
 FROM frolvlad/alpine-mono
 
-# ENV DEBIAN_FRONTEND noninteractive
-
 RUN apk update && apk add bash
-# Run Nitrox
+
 COPY ./scripts /software/scripts/
 
 # Install dependencies
