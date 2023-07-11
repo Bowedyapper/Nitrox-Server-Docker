@@ -1,64 +1,126 @@
 # Nitrox Server Docker
 
-A docker image that runs the Nitrox server software for the game Subnautica.
+This repository provides a Docker image specifically for running the Nitrox server software on linux for the game Subnautica. You can use the prebuilt image or build your own custom image.
 
-Visit the official Nitrox website [here](https://nitrox.rux.gg/download).
-You can find the original repository for this project [here](https://gitlab.qub1.com/multimedia/games/subnautica/nitrox-server-docker).
+For more information about Nitrox, visit the official Nitrox website [here](https://nitrox.rux.gg/download).
+
+This project is an updated version of the original [Nitrox server Docker project](https://gitlab.qub1.com/multimedia/games/subnautica/nitrox-server-docker), which appears to be abandoned. I have updated it to work with the latest version of Nitrox and made efforts to minimize the overall image size to around ~136 MB
 
 ## Disclaimer
 
-This project is not affiliated with either the Nitrox or the Subnautica developers.
+Please note that this project is not affiliated with either the Nitrox or the Subnautica developers.
 
 ## Usage
 
-To run this image, you can either simply use docker or use docker-compose.
+You can run this Docker image using either `docker` or `docker-compose`. 
 
 ### Docker
 
-To run the image using docker, use the following command:
+To run the prebuilt image with Docker, execute the following command:
 
 ```shell
 docker run \
-	--name "nitrox" \
-	--volume "nitrox-data:/software/nitrox" \
-	--volume "/path/to/subnautica:/software/subnautica" \
-	--env "GROUP_ID=1000" \
-	--env "USER_ID=1000" \
-	--env "TIMEZONE=Etc/GMT" \
-	--publish 11000:11000/udp \
-	qub1/nitrox-server:latest
+  --name "nitrox" \
+  --volume "/path/to/nitrox-data:/software/nitrox" \
+  --volume "/path/to/subnautica:/software/subnautica" \
+  --env "GROUP_ID=1000" \
+  --env "USER_ID=1000" \
+  --env "TIMEZONE=Etc/GMT" \
+  --env "NITROX_VERSION=1.7.1.0" \
+  --publish 11000:11000/udp \
+  bowedyapper/nitrox-docker:latest
 ```
 
-Replace `/path/to/subnautica` with the path to the Subnautica installation directory, for Steam this will be something like: `/path/to/steam/steamapps/common/Subnautica`.
-Replace the group ID and user ID with your own if needed, this will change the ownership permissions of the server data folder.
-Set the timezone to your own for proper timestamps in the logs.
+The `NITROX_VERSION` environment variable is optional and should only be used if you want to download a specific version and disable automatic updates.
+
+Replace `/path/to/subnautica` with the path to your Subnautica installation directory. For Steam installations, the path will be something like: `/path/to/steam/steamapps/common/Subnautica`.
+
+You can also install Subnautica using the `install_subnautica.sh` script in the `additional_scripts` directory.
+
+If needed, replace the `GROUP_ID` and `USER_ID` with your own values to change the ownership permissions of the server data folder.
+
+Replace `/path/to/nitrox-data` with a folder on the host machine where you would like to store the Nitrox data, including world data.
+
+Set the timezone according to your own requirements for proper timestamps in the logs.
 
 ### Docker-Compose
 
-To run the image using docker-compose, adjust this docker-compose file to your needs:
+To run the prebuilt image using Docker Compose, adjust the following `docker-compose.yml` file to meet your specific needs:
 
 ```docker
 version: "3.4"
 services:
-  nitrox:
-    image: "qub1/nitrox-server:latest"
+    image: "bowedyapper/nitrox-docker:latest"
     restart: "unless-stopped"
     ports:
       - "11000:11000/udp" # Nitrox
     volumes:
-      - "nitrox-data:/software/nitrox" # Stores your server data, such as the configuration and world data
+      - "/path/to/nitrox-data:/software/nitrox" # Stores your server data, such as the configuration and world data
       - "/path/to/subnautica:/software/subnautica" # Stores Subnautica's game files - you will need to copy your own game directory here by moving the contents of your Subnautica installation directory to this volume
     environment:
       - "GROUP_ID=1000" # The ID of the group to run Nitrox as (default=1000)
       - "USER_ID=1000" # The ID of the user to run Nitrox as (default=1000)
       - "TIMEZONE=Etc/GMT" # The timezone to run Nitrox with (default=Etc/GMT)
-volumes:
-  nitrox-data: 
+#     - "NITROX_VERSION=1.7.1.0"
 ```
 
-Place the `docker-compose.yml` file somewhere on your server and run `docker-compose up` in the same directory to start the server.
+Save the `docker-compose.yml` file on your server and run `docker-compose up` from the same directory to start the server.
 
-### Server Configuration
+### Building and Using a Custom Image
 
-You can find your server files including the configuration files in the `nitrox-data` volume.
-Docker volumes are usually stored in `/var/docker/volumes`.
+If you prefer to build your own custom image, follow these steps:
+
+1. Clone this repository to your local machine:
+
+```shell
+git clone https://github.com/Bowedyapper/Nitrox-Server-Docker.git
+```
+
+2. Navigate to the cloned repository:
+
+```shell
+cd Nitrox-Server-Docker
+```
+
+3. Build the Docker image using the provided Dockerfile:
+
+```shell
+docker build -t nitrox-docker .
+```
+
+4. Once the build is complete, you can use the newly built image with the same instructions provided in the previous sections. Replace the image name with `nitrox-docker`:
+
+```shell
+docker run \
+  --name "nitrox" \
+  --volume "/path/to/nitrox-data:/software/nitrox" \
+  --volume "/path/to/subnautica:/software/subnautica" \
+  --env "GROUP_ID=1000" \
+  --env "USER_ID=1000" \
+  --env "TIMEZONE=Etc/GMT" \
+  --env "NITROX_VERSION=1.7.1.0" \
+  --publish 11000:11000/udp \
+  nitrox-docker
+```
+
+Alternatively, modify the `docker-compose.yml` file to use the `nitrox-docker` image instead:
+
+```docker
+version: "3.4"
+services:
+  nitrox:
+    image: "nitrox-docker"
+    restart: "unless-stopped"
+    ports:
+      - "11000:11000/udp" # Nitrox
+    volumes:
+      - "/path/to/nitrox-data:/software/nitrox" # Stores your server data, such as the configuration and world data
+      - "/path/to/subnautica:/software/subnautica" # Stores Subnautica's game files - you will need to copy your own game directory here by moving the contents of your Subnautica installation directory to this volume
+    environment:
+      - "GROUP_ID=1000" # The ID of the group to run Nitrox as (default=1000)
+      - "USER_ID=1000" # The ID of the user to run Nitrox as (default=1000)
+      - "TIMEZONE=Etc/GMT" # The timezone to run Nitrox with (default=Etc/GMT)
+#     - "NITROX_VERSION=1.7.1.0" # Specific version of Nitrox to install, will also disable auto-update comment out for latest version.
+```
+
+Save the modified `docker-compose.yml` file and run `docker-compose up` from the same directory to start the server using your custom image.
