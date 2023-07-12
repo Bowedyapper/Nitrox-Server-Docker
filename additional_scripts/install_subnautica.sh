@@ -1,7 +1,14 @@
 #!/bin/bash
-# This script will allow you to install Subnautica on a Linux system
+# This script will allow you to install Subnautica on a Linux system, you must have SteamCMD installed first
 clear
 echo -e "Subnautica Steam Installer for Linux\n"
+
+which steamcmd >/dev/null 2>&1 || { 
+  echo "SteamCMD is not installed. Please install SteamCMD before trying to install Subnautica";
+  echo "You can see installation instuctions here: https://developer.valvesoftware.com/wiki/SteamCMD#Linux"
+  exit 1;
+}
+
 
 # Prompt the user for the installation directory
 while true; do
